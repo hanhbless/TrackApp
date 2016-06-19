@@ -1,0 +1,26 @@
+1. Update call log:
+1.1. When have a calling
+1.2. When the first install app
+
+2. Update sms log:
+2.1. When have a sms
+2.2. When the first install app
+
+3. Update contact log
+2.1. When contact change
+2.2. When the first install app
+
+4. Update location
+4.1. When location change have distance than 100m
+
+5. Update screenshot
+5.1. Update by duration time
+
+6. Update record voice
+6.1. When have a calling
+
+/*********************** Update Server ************************/
+- After each 30 minutes has been called: class 'SchedulingService'
+- Call Voice: update when record finished
+- Location: update when location change has distance more 100m
+- Contact: update when contacts have been changed

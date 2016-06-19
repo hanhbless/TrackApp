@@ -1,0 +1,89 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.sunnet.service"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 69
+        versionName "33.69"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/maven/com.squareup.okhttp/okhttp/pom.xml'
+        exclude 'META-INF/maven/com.squareup.okhttp/okhttp/pom.properties'
+    }
+    dexOptions {
+        incremental true
+        //javaMaxHeapSize=1024M for 32bit Java,2048M for 64bit Java
+        //maxProcessCount = 2
+        javaMaxHeapSize "2g"
+    }
+    configurations {
+        all*.exclude group: 'commons-logging', module: 'commons-logging'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.2.1'
+
+    compile project(':lame')
+
+    //-- Security
+    compile 'org.bouncycastle:bcprov-jdk15on:1.53'
+
+    compile 'com.google.android.gms:play-services-base:8.4.0'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.maps.android:android-maps-utils:0.3.4'
+
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+
+    //-- Network
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.google.guava:guava:18.0'
+
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+    compile 'com.scottyab:rootbeer-lib:0.0.4'
+    compile 'io.nlopez.smartlocation:library:3.2.2'
+    compile 'com.jaredrummler:android-processes:1.0.8'
+}
