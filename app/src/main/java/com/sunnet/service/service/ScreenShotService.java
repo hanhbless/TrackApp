@@ -12,6 +12,7 @@ import com.sunnet.service.log.Log;
 import com.sunnet.service.receiver.AlarmReceiver;
 import com.sunnet.service.task.request.RequestHelper;
 import com.sunnet.service.util.ConfigApi;
+import com.sunnet.service.util.ThreadPool;
 import com.sunnet.service.util.Utils;
 
 import java.io.File;
@@ -86,9 +87,16 @@ public class ScreenShotService extends IntentService {
             /**
              * Insert into database
              */
-            CaptureEntity entity = DatabaseHelper.genCaptureEntity(outputFilePath, topPackage);
+            final CaptureEntity entity = DatabaseHelper.genCaptureEntity(outputFilePath, topPackage);
             DatabaseHelper.createACapture(entity);
-            RequestHelper.updateScreenshotToServer(entity);
+
+            ThreadPool.doUpload(new Runnable() {
+                @Override
+                public void run() {
+                    RequestHelper.updateScreenshotToServer(entity);
+                }
+            });
+
 
         } catch (IOException e) {
             e.printStackTrace();
